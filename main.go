@@ -271,8 +271,8 @@ func outputOneRuleLevel(h *hostconfig, t *testconfig, lv string) {
 	}
 	fmt.Printf("    - alert: %s_%s\n",lv, t.Name);
 	identity:=findSourceInstance(h,t.Source, t.Selector)
-	s:=strings.Replace(t.Expr,"{}","{"+identity+"}",1)
-	s=strings.Replace(s,"@SELECTOR",identity,1)
+	s:=strings.ReplaceAll(t.Expr,"{}","{"+identity+"}")
+	s=strings.ReplaceAll(s,"@SELECTOR",identity)
 	fmt.Printf("      expr: %s\n",strconv.Quote("("+s+") "+thres) );
 	fmt.Printf("      for: %s\n",strconv.Quote(t.For));
 	fmt.Printf("      labels:\n");
