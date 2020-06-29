@@ -267,6 +267,9 @@ func outputOneRuleLevel(h *hostconfig, t *testconfig, lv string) {
 	} else {
 		log.Fatalf("unknown level %s",lv);
 	}
+	if thres == "" {
+		return
+	}
 	fmt.Printf("    - alert: %s_%s\n",lv, t.Name);
 	identity:=findSourceInstance(h,t.Source, t.Selector)
 	s:=strings.Replace(t.Expr,"{}",identity,1)
