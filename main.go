@@ -242,11 +242,10 @@ func findSourceInstance(h *hostconfig, s string, sel string) string {
 	if !ok {
 		log.Fatalf("source instance for %s undefined for hosts %s", s, h.Name)
 	}
-	str := "{instance='"+val+"'";
+	str := "instance='"+val+"'";
 	if sel>"" {
 		str+=","+sel
 	}
-	str+="}";
 	return str
 
 }
@@ -272,7 +271,8 @@ func outputOneRuleLevel(h *hostconfig, t *testconfig, lv string) {
 	}
 	fmt.Printf("    - alert: %s_%s\n",lv, t.Name);
 	identity:=findSourceInstance(h,t.Source, t.Selector)
-	s:=strings.Replace(t.Expr,"{}",identity,1)
+	s:=strings.Replace(t.Expr,"{}","{"+identity+"}",1)
+	s=strings.Replace(s,"@SELECTOR",identity,1)
 	fmt.Printf("      expr: %s\n",strconv.Quote("("+s+") "+thres) );
 	fmt.Printf("      for: %s\n",strconv.Quote(t.For));
 	fmt.Printf("      labels:\n");
